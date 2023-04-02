@@ -1,5 +1,5 @@
 <template>
-  <section class="all">
+  <section :class="['all' ]">
     <ul v-if="todosArray.length">
       <li
         class="todoItem"
@@ -7,7 +7,7 @@
         :key="todo.title"
         @click="() => selectHandler(todo)"
       >
-        <div :class="todo.done ? 'done' : 'notDone'">{{ todo.title }}</div>
+        <div :class="[{ done: todo.done, a: true } , 'abc']">{{ todo.title }}</div>
       </li>
     </ul>
     <h3 v-else>Empty</h3>
