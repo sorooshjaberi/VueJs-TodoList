@@ -7,6 +7,7 @@
       {{ selectedTodo.description }}
     </h3>
     <div @click="deleteHandler" class="delete">_</div>
+    <div @click="doneHandler" class="done">{{ !selectedTodo.done? '&#10004' : '&#10006' }}</div>
   </section>
   <section class="selected" v-else>
     <h1>Empty !</h1>
@@ -17,9 +18,12 @@
 const props = defineProps({
   selectedTodo: Object,
 });
-const emits = defineEmits(["delete"]);
+const emits = defineEmits(["delete" , "done"]);
 function deleteHandler() {
   emits("delete", props.selectedTodo.title);
+}
+function doneHandler(){
+emits('done' , props.selectedTodo)
 }
 </script>
 
@@ -31,23 +35,31 @@ function deleteHandler() {
 section {
   position: relative;
 }
-.delete {
+@mixin taskButtons {
   width: 100px;
   height: 100px;
   border-radius: 50px;
   background-color: var(--primDark);
-  color: var(--primLight);
   display: flex;
   align-items: start;
-  justify-content: center;
+  color: var(--primLight);
   font-size: 3rem;
+  justify-content: center;
+  transition: 0.4s;
   cursor: pointer;
   position: absolute;
   right: 2rem;
-  top: 2rem;
-  transition: 0.4s;
   &:hover {
     background-color: var(--secondDark);
   }
+}
+.delete {
+  @include taskButtons();
+  top: 2rem;
+}
+.done {
+  @include taskButtons();
+  align-items: center;
+  top: 15rem;
 }
 </style>

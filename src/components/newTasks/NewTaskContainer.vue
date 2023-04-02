@@ -21,32 +21,35 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import FormGroup from "./FormGroup.vue";
 
 const title = ref("");
 const description = ref("");
-const isTitleValid = ref(true);
-const isDescValid = ref(true);
+const titleTouched = ref(false);
+const descTouched = ref(false);
 const form = ref(null);
-//watch for changes and revalidate inputs
-watch(title, (t) => {
-  t ? (isTitleValid.value = true) : (isTitleValid.value = false);
+
+const isTitleValid = computed(() => {
+  return !(title.value.length === 0 && titleTouched.value);
 });
-watch(description, (d) => {
-  d ? (isDescValid.value = true) : (isDescValid.value = false);
+const isDescValid = computed(() => {
+  return !(description.value.length === 0 && descTouched.value);
+});
+
+watch(title, () => {
+  titleTouched.value = true;
+});
+watch(description, () => {
+  descTouched.value = true;
 });
 
 const emits = defineEmits(["add"]);
 
 function addHandler() {
-  const desc = description.value;
-  const tit = title.value;
-  if (!(desc.length && tit.length)) {
-    desc ? (isTitleValid.value = true) : (isTitleValid.value = false);
-    tit ? (isDescValid.value = true) : (isDescValid.value = false);
-    return;
-  }
+  titleTouched.value = true;
+  descTouched.value = true;
+  if (!(isDescValid.value && isTitleValid.value)) return;
   emits("add", {
     title: title.value,
     description: description.value,

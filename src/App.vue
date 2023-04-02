@@ -8,10 +8,14 @@
       "
     />
     <TasksList
-      @select-todo="(todo) => (selectedTodo = todo)"
+      @select-todo="(todo) =>(selectedTodo = todo)"
       :todos-array="todos"
     />
-    <TaskContainer @delete="deleteItem" :selected-todo="selectedTodo" />
+    <TaskContainer
+      @delete="deleteItem"
+      @done="(todo) => (todo.done = !todo.done)"
+      :selected-todo="selectedTodo"
+    />
   </section>
 </template>
 
@@ -24,10 +28,7 @@ const todos = ref([
   {
     title: "Clean room",
     description: "clean everything that is related to you today",
-  },
-  {
-    title: "hey",
-    description: "sdfadfhasdfjalsdhf",
+    done: false,
   },
 ]);
 const selectedTodo = ref(todos.value[0]);

@@ -7,7 +7,7 @@
         :key="todo.title"
         @click="() => selectHandler(todo)"
       >
-        <div>{{ todo.title }}</div>
+        <div :class="todo.done ? 'done' : 'notDone'">{{ todo.title }}</div>
       </li>
     </ul>
     <h3 v-else>Empty</h3>
@@ -35,6 +35,10 @@ function selectHandler(todo) {
   transition: 0.43s;
   &:hover {
     background-color: #e5e5e571;
+  }
+  .done {
+    text-decoration: line-through;
+    color: #999;
   }
 }
 </style>
