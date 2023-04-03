@@ -26,6 +26,7 @@ function addHandler(newTodo) {
     todos.value.unshift(newTodo);
     nextTick(() => {
       localStorage.setItem("todos", JSON.stringify(todos.value));
+      selectedTodo.value = newTodo;
     });
   });
 }
