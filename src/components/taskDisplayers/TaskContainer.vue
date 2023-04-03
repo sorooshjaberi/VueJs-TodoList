@@ -20,7 +20,7 @@ const props = defineProps({
 });
 const emits = defineEmits(["delete" , "done"]);
 function deleteHandler() {
-  emits("delete", props.selectedTodo.title);
+  emits("delete", props.selectedTodo.id);
 }
 function doneHandler(){
 emits('done' , props.selectedTodo)

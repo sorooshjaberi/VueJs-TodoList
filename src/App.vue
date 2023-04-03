@@ -26,8 +26,8 @@ function addHandler(newTodo) {
     localStorage.setItem("todos", JSON.stringify(todos.value));
   });
 }
-function deleteItem(title) {
-  todos.value = todos.value.filter((todo) => todo.title !== title);
+function deleteItem(id) {
+  todos.value = todos.value.filter((todo) => todo.id !== id);
   selectedTodo.value = todos.value[0];
   nextTick(() => {
     localStorage.setItem("todos", JSON.stringify(todos.value));

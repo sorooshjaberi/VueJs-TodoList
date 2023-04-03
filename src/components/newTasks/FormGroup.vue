@@ -1,20 +1,22 @@
 <template>
   <div class="container">
-    <input type="text" placeholder="title" v-model="value" />
+    <input
+      type="text"
+      placeholder="..."
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
     <p v-if="!isValid" class="error">Title isn't valid</p>
   </div>
 </template>
 <script setup>
 import { ref, watch } from "vue";
 const value = ref("");
-const props = defineProps({
-  isValid: Boolean,
-  input: String,
-});
-const emits = defineEmits(["inputChange"]);
-watch(value, (val) => {
-  emits("inputChange", val);
-});
+const props = defineProps(["isValid", "modelValue"]);
+const emits = defineEmits(["inputChange", "update:modelValue"]);
+// watch(value, (val) => {
+//   emits("inputChange", val);
+// });
 </script>
 
 <style lang="scss" scoped>

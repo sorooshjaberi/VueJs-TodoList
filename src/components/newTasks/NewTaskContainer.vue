@@ -1,17 +1,10 @@
 <template>
+  <!-- @update:input="log" -->
   <section class="new">
     <form @submit.prevent="addHandler" ref="form">
       <div class="controllers">
-        <FormGroup
-          :input="title"
-          :is-valid="isTitleValid"
-          @input-change="(val) => (title = val)"
-        />
-        <FormGroup
-          :input="description"
-          :is-valid="isDescValid"
-          @input-change="(val) => (description = val)"
-        />
+        <FormGroup :is-valid="isTitleValid" v-model="title" />
+        <FormGroup :is-valid="isDescValid" v-model="description" />
       </div>
       <div class="buttonContainer">
         <button>+</button>
@@ -21,9 +14,11 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, nextTick, ref, watch } from "vue";
 import FormGroup from "./FormGroup.vue";
-
+function log(e) {
+  console.log(e);
+}
 const title = ref("");
 const description = ref("");
 const titleTouched = ref(false);
@@ -37,7 +32,7 @@ const isDescValid = computed(() => {
   return !(description.value.length === 0 && descTouched.value);
 });
 
-watch(title, () => {
+watch(title, (e) => {
   titleTouched.value = true;
 });
 watch(description, () => {
@@ -46,6 +41,15 @@ watch(description, () => {
 
 const emits = defineEmits(["add"]);
 
+function resetForm() {
+  title.value = "";
+  description.value = "";
+  nextTick(() => {
+    titleTouched.value = false;
+    descTouched.value = false;
+  });
+}
+
 function addHandler() {
   titleTouched.value = true;
   descTouched.value = true;
@@ -53,8 +57,13 @@ function addHandler() {
   emits("add", {
     title: title.value,
     description: description.value,
+    done: false,
+    id: new Date(),
   });
   form.value.reset();
+  nextTick(() => {
+    resetForm();
+  });
 }
 </script>
 
