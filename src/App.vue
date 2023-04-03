@@ -11,17 +11,13 @@
 </template>
 
 <script setup>
-import { nextTick, onMounted, ref } from "vue";
+import { nextTick, onMounted, ref, watch } from "vue";
 import TasksList from "./components/allTasks/TasksList.vue";
 import TaskContainer from "./components/taskDisplayers/TaskContainer.vue";
 import NewTaskContainer from "./components/newTasks/NewTaskContainer.vue";
 const todos = ref([]);
 const selectedTodo = ref(todos.value[0]);
 function addHandler(newTodo) {
-  todos.value.forEach((e) => {
-    e.selected = false;
-  });
-
   nextTick(() => {
     todos.value.unshift(newTodo);
     nextTick(() => {
@@ -38,12 +34,8 @@ function deleteItem(id) {
   });
 }
 function selectTodo(todo) {
-  todos.value.forEach((e) => {
-    e.selected = false;
-  });
   nextTick(() => {
     selectedTodo.value = todo;
-    todo.selected = true;
   });
 }
 function checkHandler(todo) {
@@ -52,6 +44,17 @@ function checkHandler(todo) {
     localStorage.setItem("todos", JSON.stringify(todos.value));
   });
 }
+
+watch(selectedTodo, (selected) => {
+  console.log("changed");
+  todos.value.forEach((e) => {
+    e.selected = false;
+  });
+  nextTick(() => {
+    selected.selected = true;
+  });
+});
+
 onMounted(() => {
   const lSTodos = localStorage.getItem("todos") || [];
   todos.value = JSON.parse(lSTodos);
