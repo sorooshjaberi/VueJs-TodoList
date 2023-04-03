@@ -88,13 +88,9 @@ html {
   row-gap: 1rem;
   column-gap: 1rem;
   grid-template-columns: repeat(5, 150px);
+  grid-template-rows: auto 1fr;
   grid-template-areas:
     "new new new new allTask"
-    "new new new new allTask"
-    "selected selected selected selected allTask"
-    "selected selected selected selected allTask"
-    "selected selected selected selected allTask"
-    "selected selected selected selected allTask"
     "selected selected selected selected allTask";
   section {
     border-radius: 1rem;
