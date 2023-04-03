@@ -80,6 +80,7 @@ html {
 }
 .layout {
   width: 100%;
+  justify-content: center;
   height: calc(100% - 3rem);
   padding: 0 15rem;
   padding-top: 2rem;
