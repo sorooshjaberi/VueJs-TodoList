@@ -1,10 +1,7 @@
 <template>
   <section class="layout">
     <NewTaskContainer @add="addHandler" />
-    <TasksList
-      @select-todo="(todo) => (selectedTodo = todo)"
-      :todos-array="todos"
-    />
+    <TasksList @select-todo="selectTodo" :todos-array="todos" />
     <TaskContainer
       @delete="deleteItem"
       @done="checkHandler"
@@ -21,9 +18,15 @@ import NewTaskContainer from "./components/newTasks/NewTaskContainer.vue";
 const todos = ref([]);
 const selectedTodo = ref(todos.value[0]);
 function addHandler(newTodo) {
-  todos.value.unshift(newTodo);
+  todos.value.forEach((e) => {
+    e.selected = false;
+  });
+
   nextTick(() => {
-    localStorage.setItem("todos", JSON.stringify(todos.value));
+    todos.value.unshift(newTodo);
+    nextTick(() => {
+      localStorage.setItem("todos", JSON.stringify(todos.value));
+    });
   });
 }
 function deleteItem(id) {
@@ -31,6 +34,15 @@ function deleteItem(id) {
   selectedTodo.value = todos.value[0];
   nextTick(() => {
     localStorage.setItem("todos", JSON.stringify(todos.value));
+  });
+}
+function selectTodo(todo) {
+  todos.value.forEach((e) => {
+    e.selected = false;
+  });
+  nextTick(() => {
+    selectedTodo.value = todo;
+    todo.selected = true;
   });
 }
 function checkHandler(todo) {
@@ -43,6 +55,7 @@ onMounted(() => {
   const lSTodos = localStorage.getItem("todos") || [];
   todos.value = JSON.parse(lSTodos);
   selectedTodo.value = todos.value[0];
+  selectedTodo.value.selected = true;
 });
 </script>
 

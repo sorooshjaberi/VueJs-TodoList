@@ -3,8 +3,8 @@
   <section class="new">
     <form @submit.prevent="addHandler" ref="form">
       <div class="controllers">
-        <FormGroup :is-valid="isTitleValid" v-model="title" />
-        <FormGroup :is-valid="isDescValid" v-model="description" />
+        <FormGroup placeholder="title" :is-valid="isTitleValid" v-model="title" />
+        <FormGroup placeholder="description" :is-valid="isDescValid" v-model="description" />
       </div>
       <div class="buttonContainer">
         <button>+</button>
@@ -59,6 +59,7 @@ function addHandler() {
     description: description.value,
     done: false,
     id: new Date(),
+    selected: true,
   });
   form.value.reset();
   nextTick(() => {

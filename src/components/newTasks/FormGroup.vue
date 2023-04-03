@@ -2,7 +2,7 @@
   <div class="container">
     <input
       type="text"
-      placeholder="..."
+      :placeholder="placeholder"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
     />
@@ -12,7 +12,7 @@
 <script setup>
 import { ref, watch } from "vue";
 const value = ref("");
-const props = defineProps(["isValid", "modelValue"]);
+const props = defineProps(["isValid", "modelValue" , 'placeholder']);
 const emits = defineEmits(["inputChange", "update:modelValue"]);
 // watch(value, (val) => {
 //   emits("inputChange", val);
